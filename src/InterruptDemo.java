@@ -2,7 +2,6 @@
 public class InterruptDemo implements Runnable{
 
     public synchronized void run(){
-
     try{
       for (int i = 0; i < 10; i++){
         System.out.println(i);
@@ -10,8 +9,10 @@ public class InterruptDemo implements Runnable{
           wait();
         }
       }
+    // Here we declare how the thread is going to
+    // behave in case of receiving an interruption signal.
     }catch(InterruptedException e){
-        System.out.println("He sido interrumpido!\n");
+        System.out.println("I've been interrupted!\n");
     }
 
     }
@@ -25,7 +26,5 @@ public class InterruptDemo implements Runnable{
       hilo.interrupt();
 
     }
-
-
 
 }

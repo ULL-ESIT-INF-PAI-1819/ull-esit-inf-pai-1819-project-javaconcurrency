@@ -1,5 +1,9 @@
 import java.util.Random;
 
+/*
+ * This is a simple class that contains an integer which
+ * will increment or decrement its value.
+ */
 class Counter{
 
   static int count;
@@ -30,9 +34,11 @@ public class JoinDemo implements Runnable{
 
     Thread t1 = new Thread(new JoinDemo());
     t1.start();
+    // If you comment this part this try-catch
+    // you'll see that the counter displays a different
+    // value that the one set in the for loop.
     try{
       t1.join();
-      //Thread.sleep(1);
     }catch(Exception e){}
     System.out.println("Count: " + Counter.getCount());
 

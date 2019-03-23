@@ -9,7 +9,7 @@ public class InterruptDemo2 implements Runnable{
     System.out.println("Beginning!\n");
 
     while(true){
-
+      // Checks if the interrupted flag is activated
       if(Thread.interrupted()){
         break_ = true;
       }
