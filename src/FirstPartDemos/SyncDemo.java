@@ -3,8 +3,8 @@
 class Table{
 
 
-  // synchronized void printTable(int incrementer){
- void printTable(int incrementer){
+  synchronized void printTable(int incrementer){
+//  void printTable(int incrementer){
   //  synchronized(this){
     for (int i = 0 ; i < 5; i++){
       System.out.println(incrementer * i);
