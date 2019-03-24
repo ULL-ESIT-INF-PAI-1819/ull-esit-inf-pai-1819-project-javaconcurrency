@@ -102,7 +102,7 @@ We’ll use the first approach as is more _flexible_ and _applicable_ to the hig
 
 Thread sleep causes the current thread to _suspend execution for a specific period_. This is efficient because it provides to other threads of an application with CPU time for running themselves.
 
-Two overloaded versions of sleep are provided, first one *specifies the sleep time to the millisecond* while the other one s*pecifies it to the nanosecond.* However, these sleep times are not guarantee to be precise as they’re limited by the facilities provided by the underlying OS. 
+Two overloaded versions of sleep are provided, first one *specifies the sleep time to the millisecond* while the other one s*pecifies it to the nanosecond.* However, these sleep times are not guarantee to be precise as they’re limited by the facilities provided by the underlying OS.
 
 ```java
 public class SleepDemo{
@@ -121,7 +121,7 @@ public class SleepDemo{
 
 ### Interrupts
 
-An interrupt is an *indication to a thread that it should stop what it is doing*. It’s up to the programmer to decide exactly how a thread responds to an interrupt, but is very common for the thread to terminate. 
+An interrupt is an *indication to a thread that it should stop what it is doing*. It’s up to the programmer to decide exactly how a thread responds to an interrupt, but is very common for the thread to terminate.
 
 If we want to interrupt a thread we must invoke the *Thread.interrupt()* method on it’s Thread object. For the interrupt mechanism to work correctly, the interrupted thread *must support its own interruption*, that means it should declare somehow how it’s gonna behave if it receives an interrupt signal.
 
@@ -157,7 +157,7 @@ public class InterruptDemo implements Runnable{
 }
 ```
 
-Many methods are pre-design to cancel their current operation as soon as an interrupt is received and throw an _Interrupted Exception_ for example _Thread.sleep()_ or _Object.wait()._ 
+Many methods are pre-design to cancel their current operation as soon as an interrupt is received and throw an _Interrupted Exception_ for example _Thread.sleep()_ or _Object.wait()._
 
 But what if a Thread doesn’t invoke a method that throws InterruptedException? Then if we call _Thread.interrupt()_ it wouldn’t stop, in this case we must periodically invoke Thread.interrupted, which returns true if an interrupt has been received.
 
@@ -260,13 +260,13 @@ public class JoinDemo implements Runnable{
 
 ### Synchronization
 
-Threads communicate between themselves primarily *by sharing access to some fields*, this form of communication can lead to *thread interference* and *memory consistency errors*. 
+Threads communicate between themselves primarily *by sharing access to some fields*, this form of communication can lead to *thread interference* and *memory consistency errors*.
 
 To prevent this kind of errors we use a tool called *synchronization*, is provides a way to access in an organized ways to the shared resources, however synchronization can introduce thread contention, which occurs when two or more threads try to access the same resource simultaneously and *cause the Java runtime to slow down one or more threads* ( or even suspend their execution ).
 
-Java provides two basic ways of synchronization : 
+Java provides two basic ways of synchronization :
 1. ***Synchronized methods.***
-2. ***Synchronized statements.*** 
+2. ***Synchronized statements.***
 
 In the first case we’ve got:
 
@@ -329,7 +329,7 @@ There’s no possible way for two invocations of the synchronized method on the 
       try{Thread.sleep(400);}catch(Exception e){}
     }
     // Because the happens-before relationship exists
-    // the following thread to execute this piece of 
+    // the following thread to execute this piece of
     // code we'll be seeing the change in the incrementer
     // variable.
     incrementer = 20;
@@ -355,7 +355,7 @@ The other way of create synchronized code is with the previously mentioned *sync
 
 ## Liveness of a concurrent application:
 
-A concurrent application’s ability to execute in a finite amount of time is known as its **liveness**. As much of a trivial matter as it may seem, there are several common problems that have to be faced when developing this type of applications. 
+A concurrent application’s ability to execute in a finite amount of time is known as its **liveness**. As much of a trivial matter as it may seem, there are several common problems that have to be faced when developing this type of applications.
 
 For the record, we’ll be discussing *deadlock*, *starvation* and *livelock*.
 
@@ -382,7 +382,7 @@ public class Deadlock {
         }
         public synchronized void bow(Friend bower) {
             System.out.format("%s: %s"
-                + "  has bowed to me!%n", 
+                + "  has bowed to me!%n",
                 this.name, bower.getName());
             bower.bowBack(this);
         }
@@ -416,20 +416,20 @@ So, as a general rule: **When does a concurrent application face deadlock?**
 - Simple. This often occurs when an executing thread is waiting for a reasource whose lock is owned by another thread, who is **also** waiting for a resource owned by the first thread.
 - This causes that they can never respond each other back. The program will likely freeze if a main action thread is involved.
 
-There is another great code examle [here](https://github.com/ULL-ESIT-INF-PAI-1819/ull-esit-inf-pai-1819-project-javaconcurrency/blob/master/src/Hostages%20(Deadlock)/src/Hostages.java). 
+There is another great code examle [here](https://github.com/ULL-ESIT-INF-PAI-1819/ull-esit-inf-pai-1819-project-javaconcurrency/blob/master/src/Hostages%20(Deadlock)/src/Hostages.java).
 
 As for solutions to this problem, one is provided [here](https://github.com/ULL-ESIT-INF-PAI-1819/ull-esit-inf-pai-1819-project-javaconcurrency/blob/master/src/Deadlock%20Solved/src/Safelock.java), and is also discussed in the **High level Concurrency Objects** section.
 
 
 ### Starvation:
-Describes a situation where **a thread doesn’t gain access to shared resources** because there are other **"very greedy"** threads that use them for very large periods of time. 
+Describes a situation where **a thread doesn’t gain access to shared resources** because there are other **"very greedy"** threads that use them for very large periods of time.
 
 This can ultimately lead to massively slowing down our application - specially if the blocked thread(s) are of sheer importance.
 
 The **solution** to this problem is almost entirely *design-based*. You can adapt different **policies** to manage thread activity.
 There are several high-level concurrency-related objects in Java that implement these policies automatically.
 
-One of the most popular ones is the ***Fair policy***, which establishes a simple, set *rule*: 
+One of the most popular ones is the ***Fair policy***, which establishes a simple, set *rule*:
 **When a thread abandons a lock, and immediately queues up to obtain it again, other threads have preference.**
 
 #### Thread.yield():
@@ -441,46 +441,46 @@ As described in the [Official Oracle Refference](https://docs.oracle.com/javase/
 An example of *yield()* is shown here:
 
 ```java
-// Java program to illustrate yield() method 
-// in Java 
-import java.lang.*; 
-  
-// MyThread extending Thread 
-class MyThread extends Thread 
-{ 
-    public void run() 
-    { 
-        for (int i=0; i<5 ; i++) 
-            System.out.println(Thread.currentThread().getName() 
-                                + " in control"); 
-    } 
-} 
-  
-// Driver Class 
-public class yieldDemo 
-{ 
-    public static void main(String[]args) 
-    { 
-        MyThread t = new MyThread(); 
-        t.start(); 
-  
-        for (int i=0; i<5; i++) 
-        { 
-            // Control passes to child thread 
-            Thread.yield(); 
-  
-            // After execution of child Thread 
-            // main thread takes over 
-            System.out.println(Thread.currentThread().getName() 
-                                + " in control"); 
-        } 
-    } 
-} 
+// Java program to illustrate yield() method
+// in Java
+import java.lang.*;
+
+// MyThread extending Thread
+class MyThread extends Thread
+{
+    public void run()
+    {
+        for (int i=0; i<5 ; i++)
+            System.out.println(Thread.currentThread().getName()
+                                + " in control");
+    }
+}
+
+// Driver Class
+public class yieldDemo
+{
+    public static void main(String[]args)
+    {
+        MyThread t = new MyThread();
+        t.start();
+
+        for (int i=0; i<5; i++)
+        {
+            // Control passes to child thread
+            Thread.yield();
+
+            // After execution of child Thread
+            // main thread takes over
+            System.out.println(Thread.currentThread().getName()
+                                + " in control");
+        }
+    }
+}
 ```
 
 ### Livelock:
 
-Although not as common as deadlock, it results on livelocked threads being unable to make further progress as well. 
+Although not as common as deadlock, it results on livelocked threads being unable to make further progress as well.
 However, they are not blocked; they are simply too busy communicating with other threads, and not being able to focus on their respective tasks.
 
 **Again, lets go over a brief example:**
@@ -536,7 +536,7 @@ With this idea in mind, note that the loop surrounding the **wait()** call is im
 
 ## Immutable objects:
 
-A widely spread and accepted approach to building thread-safe applications is the use, and actually maximum reliance in **immutable objects.** 
+A widely spread and accepted approach to building thread-safe applications is the use, and actually maximum reliance in **immutable objects.**
 *An object is considered immutable if its state cannot change after it is constructed. *
 
 They are particularly useful in concurrent applications, since data cannot be corrupted by thread interference - nor can it be observed in an inconsistent state. This may avoid you having write synchronized blocks of code to ensure consistency. Additionally, it decreases the overhead due to garbage collection.
@@ -546,12 +546,12 @@ They are particularly useful in concurrent applications, since data cannot be co
 The following are very general rules for creating immutable objects - not all classes documented as “immutable” follow this strategy - but it will surely help to give a broad understanding on how to transform mutable class definitions to their more robust counterpart, immutable classes.
 
 1. **Don’t provide “setter” methods** or methods that modify fields or objects referred to by fields.
-    
+
     In the second case, we have ensure that:
     - **Methods that modify the mutable object are not provided.**
     - **There are no shared references to the mutable objects passed to the constructor.** These should never be stored in collections directly, but through a *copy*. Similarly, it is needed to make sure no references to the mutable object are returned from a method.  
 2. **Make all fields final and private**.
-3. **Don’t allow subclasses to override methods.** 
+3. **Don’t allow subclasses to override methods.**
     This accepts two approaches:
     - Declare the class as final.
     - Make the constructor private and construct instances in factory methods. This is arguably more sophisticated, but also trickier. An example of factory classes is provided [here](https://github.com/ULL-ESIT-INF-PAI-1819/ull-esit-inf-pai-1819-project-javaconcurrency/tree/master/src/Factory/src).
@@ -603,12 +603,12 @@ public class Safelock {
             }
             return myLock && yourLock;
         }
-            
+
         public void bow(Friend bower) {
             if (impendingBow(bower)) {
                 try {
                     System.out.format("%s: %s has"
-                        + " bowed to me!%n", 
+                        + " bowed to me!%n",
                         this.name, bower.getName());
                     bower.bowBack(this);
                 } finally {
@@ -646,7 +646,7 @@ To demonstrate the versatility of this language, we'll consider that Alphonse an
             this.bower = bower;
             this.bowee = bowee;
         }
-    
+
         public void run() {
             Random random = new Random();
             for (;;) {
@@ -657,7 +657,7 @@ To demonstrate the versatility of this language, we'll consider that Alphonse an
             }
         }
     }
-            
+
 
     public static void main(String[] args) {
         final Friend alphonse =
@@ -742,17 +742,21 @@ Since there are a lot of this kind of objects, we won't be detailing their funct
 
 ### Atomic Variables:
 What if you needed to change the value of a shared variable on a regular basis on different threads? This seems rather usual, but it’s not that easy to do so safely without the tools.
-**Atomic variables** are a very decent alternative to an excessive use of synchronized methods, which can repercute roughly in a program’s liveness. 
+**Atomic variables** are a very decent alternative to an excessive use of synchronized methods, which can repercute roughly in a program’s liveness.
 Included in **java.util.concurrent.atomic** and implemented for most base data types.
 
 ### Concurrent Random Numbers:
-Interestingly enough, there is a more thread-efficient and reliable alternative to calling **Math.random** inside threads. 
+Interestingly enough, there is a more thread-efficient and reliable alternative to calling **Math.random** inside threads.
 It is provided directly by **java.util.concurrent** and it’s called **ThreadLocalRandom**. Calling one of its methods ensures to generate a local random number instead of a global one.
 
 ---
 
 ### Bibliography
 
+- [How does Join work in java](https://stackoverflow.com/questions/23422970/how-does-join-work-in-java-does-it-guarantee-the-execution-before-main)
+- [Concurrency vs Parallelism](https://www.google.com/url?q=https://howtodoinjava.com/java/multi-threading/concurrency-vs-parallelism/&sa=D&ust=1553469367261000&usg=AFQjCNGnbQq8WV1LQH4i_g4WvYV1mAvF0w)
+- [Elliot Forbes Learning Concurrency In Python](https://www.amazon.com/Learning-Concurrency-Python-concurrent-applications-ebook/dp/B01NARDH3B)
+- [Peter Pachecho An Introduction to Parallel Programming](https://www.amazon.com/Introduction-Parallel-Programming-Peter-Pacheco/dp/0123742609)
 - [Official Oracle Docs Web Page](https://docs.oracle.com/javase/tutorial/)
 - [Java Essentials Tutorial](https://www.tutorialspoint.com/java/)
 - [Classic Constructor VS Static Factory Methods](https://www.baeldung.com/java-constructors-vs-static-factory-methods)
