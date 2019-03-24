@@ -24,13 +24,13 @@ public class JoinDemo implements Runnable{
   public void run(){
     Counter c = new Counter();
 
-    for (int i = 0; i < 100000000; i++){
+    for (int i = 0; i < 100000; i++){
       c.increment();
     }
 
   }
 
-  public static void main(String args[]){
+  public static void main(String args[]) throws InterruptedException{
 
     Thread t1 = new Thread(new JoinDemo());
     t1.start();
